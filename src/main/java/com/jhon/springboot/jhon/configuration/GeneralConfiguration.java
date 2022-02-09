@@ -2,11 +2,14 @@ package com.jhon.springboot.jhon.configuration;
 
 import com.jhon.springboot.jhon.bean.MyBeanWithProperties;
 import com.jhon.springboot.jhon.bean.MyBeanWithPropertiesImplement;
+import com.jhon.springboot.jhon.pojo.UserPojo;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@EnableConfigurationProperties(UserPojo.class)//Habilita la clase pojo para inyectar
 public class GeneralConfiguration {
     @Value("${value.name}")
     private String name;

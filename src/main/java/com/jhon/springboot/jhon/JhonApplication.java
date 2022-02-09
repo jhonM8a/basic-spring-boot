@@ -4,6 +4,7 @@ import com.jhon.springboot.jhon.bean.MyBean;
 import com.jhon.springboot.jhon.bean.MyBeanWithDependency;
 import com.jhon.springboot.jhon.bean.MyBeanWithProperties;
 import com.jhon.springboot.jhon.component.ComponentDependecy;
+import com.jhon.springboot.jhon.pojo.UserPojo;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,14 +17,17 @@ public class JhonApplication implements CommandLineRunner {
 	private MyBean myBean;
 	private MyBeanWithDependency myBeanWithDependency;
 	private MyBeanWithProperties myBeanWithProperties;
+	private UserPojo userPojo;
 
 	public JhonApplication(@Qualifier("componentTwoImplement") ComponentDependecy componentDependecy,
 						   MyBean myBean, MyBeanWithDependency myBeanWithDependency,
-						   MyBeanWithProperties myBeanWithProperties){
+						   MyBeanWithProperties myBeanWithProperties,
+						   UserPojo userPojo){
 		this.componentDependecy = componentDependecy;
 		this.myBean = myBean;
 		this.myBeanWithDependency = myBeanWithDependency;
 		this.myBeanWithProperties = myBeanWithProperties;
+		this.userPojo = userPojo;
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(JhonApplication.class, args);
@@ -35,5 +39,6 @@ public class JhonApplication implements CommandLineRunner {
 		myBean.print();
 		myBeanWithDependency.printWithDepency();
 		System.out.println(myBeanWithProperties.function());
+		System.out.println(userPojo.getEmail()+"-"+userPojo.getPassword());
 	}
 }

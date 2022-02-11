@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -49,8 +50,18 @@ public class JhonApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		//ejemploClasesAnteriores();
 		saveUserInDataBase();
+		getInformationJpqlFromUser();
 	}
 
+	private void getInformationJpqlFromUser(){
+		LOGGER.info("user:"+
+				userRepository.findMyUserByEmail("jhon.ochoa@unillanos.edu.co")
+						.orElseThrow(()->new RuntimeException("Empry user")));
+
+		userRepository.findAndSort("Pe", Sort.by("id").descending())
+				.stream()
+				.forEach(user->LOGGER.info("User sort:"+user.getName()));
+	}
 	private void saveUserInDataBase(){
 		User user1 = new User("Jhon", "jhon.ochoa@unillanos.edu.co", LocalDate.of(2021, 03, 20));
 		User user2 = new User("Vane", "vane.paredes@unillanos.edu.co", LocalDate.of(2021, 05, 21));

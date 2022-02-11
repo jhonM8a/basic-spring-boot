@@ -61,6 +61,32 @@ public class JhonApplication implements CommandLineRunner {
 		userRepository.findAndSort("Pe", Sort.by("id").descending())
 				.stream()
 				.forEach(user->LOGGER.info("User sort:"+user.getName()));
+
+		userRepository.findByName("Jhon")
+				.stream()
+				.forEach(user -> LOGGER.info("Usuario con query Method: "+user));
+
+		LOGGER.info("Usuario con query method name - email:"+userRepository.findByNameAndEmail("Mario", "Mario@unillanos.edu.co").orElseThrow(()-> new RuntimeException("Not exits")));
+
+		userRepository.findByNameLike("%Ma%")
+				.stream()
+				.forEach(user -> LOGGER.info("Usuario findByNameLike: "+user));
+
+		userRepository.findByNameOrEmail(null,"Leidy@unillanos.edu.co")
+				.stream()
+				.forEach(user -> LOGGER.info("Usuario findByNameOrEmail: "+user));
+
+		userRepository.findByBirthDateBetween(LocalDate.of(2021,3, 20), LocalDate.of(2022,02, 01))
+				.stream()
+				.forEach(user -> LOGGER.info("Usario con intervalo de fechas: "+user));
+
+		userRepository.findByNameLikeOrderByIdDesc("%Pe%")
+				.stream()
+				.forEach(user -> LOGGER.info("Usuario encontrado con like y ordenado: "+user));
+
+		userRepository.findByNameContainingOrderByIdDesc("Pe")
+				.stream()
+				.forEach(user -> LOGGER.info("Usuario encontrado con contain y ordenado: "+user));
 	}
 	private void saveUserInDataBase(){
 		User user1 = new User("Jhon", "jhon.ochoa@unillanos.edu.co", LocalDate.of(2021, 03, 20));
